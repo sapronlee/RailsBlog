@@ -1,0 +1,66 @@
+<%- model_class = Category -%>
+<%= render "base" %>
+
+<div class="control-group">
+  <div class="controls pagination-right">
+    <%= simple_form_for :category, :url => search_admin_categories_path do |f| -%>
+      <div class="input-append">
+        <%= f.input_field :name, :placeholder => t("helpers.placeholder.search", :model => model_class.model_name.human) %>
+        <button type="submit" class="btn"><i class="icon-search"></i></button>
+      </div>
+    <% end -%>
+  </div>
+</div>
+<%= simple_form_for :category, :url => destroy_multiple_admin_categories_path do |f| -%>
+  <button type="submit" class="btn btn-danger delete-all" <%= "disabled=\"disabled\"" if @categories.blank? %>>
+    <i class="icon-trash icon-large"></i>
+    <b><%= t("helpers.links.delete_all") %></b>
+  </button>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th class="select-all"><%= check_box_tag "select_all" %></th>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:url) %></th>
+        <th><%= model_class.human_attribute_name(:order) %></th>
+        <th><%= model_class.human_attribute_name(:blogs_count) %></th>
+        <th><%= model_class.human_attribute_name(:created_at) %></th>
+        <th class="actions"><%= t("helpers.links.action") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @categories.each do |category| %>
+        <tr>
+          <td class="select-all">
+            <%= check_box_tag "category_ids[]", category.id, false, :id => "category_#{category.id}" %>
+          </td>
+          <td><%= category.name %></td>
+          <td><%= category.url %></td>
+          <td><%= category.order %></td>
+          <td><%= category.blogs_count %></td>
+          <td><%= l category.created_at.to_date, :format => :long %></td>
+          <td class="actions">
+            <%= link_to raw("<i class=\"icon-edit icon-large\"></i>"), 
+                        edit_admin_category_path(category), 
+                        :title => t("helpers.links.edit", :model_name => category.name),
+                        :class => "btn btn-mini",
+                        :rel => :tooltip %>
+            <%= link_to raw("<i class=\"icon-trash icon-large\"></i>"),
+                        admin_category_path(category),
+                        :method => :delete,
+                        :title => t("helpers.links.destroy", :model_name => category.name),
+                        :class => "btn btn-mini",
+                        :data => { :confirm => t("helpers.messages.confirm") },
+                        :rel => :tooltip %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end -%>
+
+<div class="table-footer clearfix">
+  <div class="paginates-info"><%= page_entries_info @categories %></div>
+  <%= paginate @categories, :theme => "admin" %>
+</div>
+

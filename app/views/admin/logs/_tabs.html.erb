@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs">
+	<li<%= " class=active" if %w(index).include?(action_name) %>>
+		<a href="<%= admin_logs_path %>" title="<%= t("helpers.links.all") %>"><%= t("helpers.links.all") %></a>
+	</li>
+	<li<%= " class=active" if %w(categories).include?(action_name) %>>
+		<a href="<%= categories_admin_logs_path %>" title="<%= Category.model_name.human %>"><%= Category.model_name.human %></a>
+	</li>
+	<li<%= " class=active" if %w(blogs).include?(action_name) %>>
+		<a href="<%= blogs_admin_logs_path %>" title="<%= Blog.model_name.human %>"><%= Blog.model_name.human %></a>
+	</li>
+	<li<%= " class=active" if %w(albums).include?(action_name) %>>
+		<a href="<%= albums_admin_logs_path %>" title="<%= Album.model_name.human %>"><%= Album.model_name.human %></a>
+	</li>
+	<li<%= " class=active" if %w(photos).include?(action_name) %>>
+		<a href="<%= photos_admin_logs_path %>" title="<%= Photo.model_name.human %>"><%= Photo.model_name.human %></a>
+	</li>
+</ul>

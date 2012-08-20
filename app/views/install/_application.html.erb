@@ -1,0 +1,26 @@
+<div class="hero-unit">
+  <fieldset>
+    <legend>网站设置</legend>
+    <div class="control-group">
+      <label class="control-label" for="app-name">网站名字</label>
+      <div class="controls">
+        <input class="input-xlarge" id="app-name" name="setting[app_name]" type="text" value="<%= Setting.app_name %>">
+        <p class="help-block">给你的网站取个好听的名字吧！30字以内。<span class="error"></span></p>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="app-keywords">网站关键字</label>
+      <div class="controls">
+        <input class="input-xlarge" id="app-keywords" name="setting[app_keywords]" type="text" value="<%= Setting.app_keywords %>">
+        <p class="help-block">为了优化，提供一些关键词吧！100字内。<span class="error"></span></p>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="app-description">网站描述</label>
+      <div class="controls">
+        <textarea class="input-xlarge" id="app-description" name="setting[app_description]"><%= Setting.app_description %></textarea>
+        <p class="help-block">用一些话来形容一下你的网站吧！100字内。<span class="error"></span></p>
+      </div>
+    </div>
+  </fieldset>
+</div>

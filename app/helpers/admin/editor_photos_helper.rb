@@ -1,0 +1,2 @@
+module Admin::EditorPhotosHelper
+end

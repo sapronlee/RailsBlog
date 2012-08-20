@@ -1,0 +1,12 @@
+$("#photo-upload-modal #upload").empty().append('<%= j(render("form")) %>');
+$(function() {
+  $('#photos-fileupload').fileupload({
+		previewMaxWidth: 173,
+		previewMaxHeight: 138,
+		maxFileSize: 10000000,
+		maxNumberOfFiles: 50,
+		acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+	}).bind("fileuploadstop", function() {
+		$("#photo-upload-modal a[data-target='#list']").click();
+	})
+});

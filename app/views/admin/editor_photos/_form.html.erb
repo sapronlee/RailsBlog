@@ -1,0 +1,46 @@
+
+<%= simple_form_for [:admin, @photo], :html => { :multipart => true, :id => "photos-fileupload", :class => "form-horizontal"  } do |f| %>
+  <div class="row fileupload-buttonbar">
+    <div class="span7">
+      <span class="btn btn-success fileinput-button">
+        <i class="icon-plus icon-white icon-large"></i>
+        <b><%= t("fileupload.links.add") %></b>
+        <input id="photo_image" multiple="multiple" name="photo[image]" type="file" />
+      </span>
+      <button type="submit" class="btn btn-primary start">
+        <i class="icon-upload icon-white icon-large"></i>
+        <b><%= t("fileupload.links.start_all") %></b>
+      </button>
+      <button type="reset" class="btn btn-warning cancel">
+          <i class="icon-ban-circle icon-white icon-large"></i>
+          <b><%= t("fileupload.links.cancel_all") %></b>
+      </button>
+      <button type="button" class="btn btn-danger delete">
+          <i class="icon-trash icon-white icon-large"></i>
+          <b><%= t("fileupload.links.delete") %></b>
+      </button>
+    </div>
+    <div class="span5 fileupload-progress fade">
+      <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <div class="bar" style="width:0%;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fileupload-loading"></div>
+  <div class="control-group select required">
+    <%= f.label :album_id %>
+    <div class="controls">
+      <% if @album.blank? %>
+        <%= f.select :album_id, Album.created_desc.map { |a| [a.name, a.id] } %>
+      <% else -%>
+        <%= f.select :album_id, Album.created_desc.map { |a| [a.name, a.id] }, :selected => @album.id %>
+      <% end -%>
+    </div>
+  </div>
+  <div id="photos-files">
+    <ul class="files thumbnails"></ul>
+  </div>
+<% end %>
+
+<%= render "admin/photos/template-upload" %>
+<%= render "admin/photos/template-download" %>

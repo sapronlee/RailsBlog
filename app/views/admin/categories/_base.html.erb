@@ -1,0 +1,74 @@
+<%- model_class = Category -%>
+<%= content_for :title do -%>
+	<% if %w(index).include?(action_name) -%>
+		<%= t("helpers.links.list", :model_name => model_class.model_name.human) %>
+	<% end -%>
+
+	<% if %w(new create).include?(action_name) -%>
+		<%= t("helpers.links.new", :model_name => model_class.model_name.human) %>
+	<% end -%>
+
+	<% if %w(edit update).include?(action_name) -%>
+		<%= t("helpers.links.edit", :model_name => model_class.model_name.human) %>
+	<% end -%>
+
+	<% if %w(search).include?(action_name) -%>
+		<%= t("helpers.links.search", :model_name => model_class.model_name.human) %>
+	<% end -%>
+<% end -%>
+
+<%= content_for :sitemaps do -%>
+	<a href="<%= admin_categories_path %>"><%= model_class.model_name.human %></a>
+	<span class="divider">/</span>
+	<% if %w(index).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.list", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+
+	<% if %w(new create).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+
+	<% if %w(edit update).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.edit", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+
+	<% if %w(search).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.search", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+<% end -%>
+
+<%= content_for :sidebar do -%>
+	<% if %w(index).include?(action_name) -%>
+	<div class="well add">
+		<a href="<%= new_admin_category_path %>" class="btn btn-primary">
+			<i class="icon-pencil icon-large"></i>
+			<b><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></b>
+		</a>
+	</div>
+	<div class="well sidebar-nav clearfix">
+	  <%= log_tags(Category.logs(:all, 20), :date_tag => false, :model_tag => false, :truncate => 19) %>
+	  <%= link_to t("helpers.links.more"), categories_admin_logs_path, :class => "more pull-right" %>
+	</div>
+	<% end -%>
+
+	<% if %w(new create edit update).include?(action_name) -%>
+		<div class="well add">
+		<a href="<%= admin_categories_path %>" class="btn btn-primary">
+			<i class="icon-table icon-large"></i>
+			<b><%= t("helpers.links.list", :model_name => model_class.model_name.human) %></b>
+		</a>
+	</div>
+	<% end -%>
+
+	<% if %w(new create).include?(action_name) -%>
+		<div class="well sidebar-nav">
+		  <%= log_tags(Category.logs(:create, 20), :date_tag => false, :model_tag => false, :truncate => 19) %>
+		</div>
+	<% end -%>
+
+	<% if %w(edit update).include?(action_name) -%>
+		<div class="well sidebar-nav">
+		  <%= log_tags(Category.logs(:update, 20), :date_tag => false, :model_tag => false, :truncate => 19) %>
+		</div>
+	<% end -%>
+<% end -%>

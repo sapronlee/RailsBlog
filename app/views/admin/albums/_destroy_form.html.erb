@@ -1,0 +1,29 @@
+<%- model_class = Album -%>
+<%= simple_form_for [:admin, @album], :html => { :class => "form-horizontal", :id => :deleteAlbum }, :method => :delete do |f| %>
+<div class="modal-header">
+  <a class="close" data-dismiss="modal">×</a>
+  <h3><%= t("helpers.links.destroy", :model_name => model_class.model_name.human) %></h3>
+</div>
+<div class="modal-body">
+  <h4>你确定要删除该相册吗？</h4>
+  <div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" id="deleteAll" value="1" name="delete_all" />
+        删除该相册下全部照片？
+      </label>
+    </div>
+  </div>
+  <div class="alert">
+    <h4>注意：</h4>
+    默认情况下如果删除了相册，会将该相册下所有照片移动到<strong>默认相册</strong>内！
+  </div>
+</div>
+<div class="modal-footer">
+	<button type="submit" class="btn btn-primary">
+  	<i class="icon-pencil icon-large"></i>
+    <b><%= t("helpers.links.destroy", :model_name => model_class.model_name.human) %></b>
+  </button>
+  <a href="#" class="btn" data-dismiss="modal"><%= t("helpers.links.close") %></a>
+</div>
+<% end -%>

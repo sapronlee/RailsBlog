@@ -1,0 +1,14 @@
+<li class="box template-download">
+  <div class="image-box">
+    <div class="preview">
+        <%= image_tag photo.image.thumb %>
+    </div>
+    <div class="action delete hide">
+      <a class="danger" href="<%= admin_album_photo_path(@album, photo) %>" data-method="delete">
+        <i class="icon-trash icon-white icon-large"></i>
+      </a>
+    </div>
+  </div>
+  <span class="name"><%= photo.name %></span>
+  <input id="<%= "photo_#{photo.id}" %>" name="photo_ids[]" type="checkbox" value="<%= photo.id %>" class="delete" />
+</li>

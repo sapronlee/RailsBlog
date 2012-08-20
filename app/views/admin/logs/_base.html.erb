@@ -1,0 +1,38 @@
+<%- model_class = Log -%>
+<%= content_for :title do -%>
+	<% if %w(index).include?(action_name) -%>
+		<%= "#{t("helpers.links.all")}#{t("helpers.links.log")}" %>
+	<% end -%>
+	<% if %w(categories).include?(action_name) -%>
+		<%= "#{Category.model_name.human}#{t("helpers.links.log")}" %>
+	<% end -%>
+	<% if %w(blogs).include?(action_name) -%>
+		<%= "#{Blog.model_name.human}#{t("helpers.links.log")}" %>
+	<% end -%>
+	<% if %w(albums).include?(action_name) -%>
+		<%= "#{Album.model_name.human}#{t("helpers.links.log")}" %>
+	<% end -%>
+	<% if %w(photos).include?(action_name) -%>
+		<%= "#{Photo.model_name.human}#{t("helpers.links.log")}" %>
+	<% end -%>
+<% end -%>
+
+<%= content_for :sitemaps do -%>
+	<a href="<%= admin_logs_path %>"><%= model_class.model_name.human %></a>
+	<span class="divider">/</span>
+	<% if %w(index).include?(action_name) -%>
+		<span class="active"><%= "#{t("helpers.links.all")}#{t("helpers.links.log")}" %></span>
+	<% end -%>
+	<% if %w(categories).include?(action_name) -%>
+		<span class="active"><%= "#{Category.model_name.human}#{t("helpers.links.log")}" %></span>
+	<% end -%>
+	<% if %w(blogs).include?(action_name) -%>
+		<span class="active"><%= "#{Blog.model_name.human}#{t("helpers.links.log")}" %></span>
+	<% end -%>
+	<% if %w(albums).include?(action_name) -%>
+		<span class="active"><%= "#{Album.model_name.human}#{t("helpers.links.log")}" %></span>
+	<% end -%>
+	<% if %w(photos).include?(action_name) -%>
+		<span class="active"><%= "#{Photo.model_name.human}#{t("helpers.links.log")}" %></span>
+	<% end -%>
+<% end -%>

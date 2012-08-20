@@ -1,0 +1,31 @@
+<%= simple_form_for User.new, :url => installing_path, :html => { :class => 'form-horizontal' } do |f| -%>
+<div id="install" class="tabbable">
+  <ul class="nav">
+    <li><a href="#welcome">欢迎使用</a></li>
+    <li><a href="#application">网站信息</a></li>
+    <li><a href="#user">注册用户</a></li>
+    <li><a href="#user-profile">完善用户</a></li>
+    <li><a href="#finish">完成安装</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane" id="welcome">
+      <div class="hero-unit">
+			  <h1>Rails Blog</h1>
+			  <p>安装向导</p>
+			</div>
+    </div>
+    <div class="tab-pane" id="application">
+      <%= render "install/application" %>
+    </div>
+    <div class="tab-pane" id="user">
+      <%= render "install/user" %>
+    </div>
+    <div class="tab-pane" id="user-profile">
+      <%= render "install/user_profile" %>
+    </div>
+    <div class="tab-pane" id="finish">
+      <%= render "install/finish" %>
+    </div>
+  </div>
+</div>
+<% end -%>

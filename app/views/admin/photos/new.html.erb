@@ -1,0 +1,19 @@
+<%= render "base" %>
+<%= render "form" %>
+<div id="upload-success" class="modal hide fade in">
+	<div class="modal-header">
+	  <a class="close" data-dismiss="modal">×</a>
+	  <h3>上传完毕</h3>
+	</div>
+	<div class="modal-body">
+	  <h4>你已经上传完毕。</h4>
+	</div>
+	<div class="modal-footer">
+		<% if !@album.blank? %>
+		  <a href="<%= admin_album_photos_path(@album) %>" class="btn btn-success"><%= t("helpers.links.back_album") %></a>
+	  <% else -%>
+		  <a href="<%= admin_albums_path %>" class="btn btn-success"><%= t("helpers.links.back_album") %></a>
+	  <% end -%>
+	  <a href="javascript:void(0);" class="btn btn-primary" data-dismiss="modal"><%= t("helpers.links.continue") %></a>
+	</div>
+</div>

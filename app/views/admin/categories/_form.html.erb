@@ -1,0 +1,32 @@
+<%- model_class = Category -%>
+
+<%= simple_form_for [:admin, @category], :html => { :class => "" } do |f| %>
+  <fieldset>
+  	<% if %w(new create).include?(action_name) %>
+	  	<legend><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></legend>
+  	<% end -%>
+  	<% if %w(edit update).include?(action_name) %>
+	  	<legend><%= t("helpers.links.edit", :model_name => model_class.model_name.human) %></legend>
+  	<% end -%>
+  	<%= error_messages_for @category, :class => "control-group alert alert-error fade in", :close => :true %>
+	  <%= f.input :name, :input_html => { :class => :span5 } %>
+	  <%= f.input :url, :input_html => { :class => :span5 } %>
+	  <%= f.input :order, :input_html => { :class => :span1 } %>
+	  <div class="form-actions">
+	    <button type="submit" class="btn btn-primary">
+	    	<i class="icon-pencil icon-large"></i>
+	    	<% if %w(new create).include?(action_name) %>
+		    	<b><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></b>
+	    	<% end -%>
+	    	<% if %w(edit update).include?(action_name) %>
+	    		<b><%= t("helpers.links.edit", :model_name => model_class.model_name.human) %></b>
+	    	<% end -%>
+	    </button>
+	    <a href="<%= admin_categories_path %>" class="btn">
+	    	<i class="icon-ban-circle icon-large"></i>
+	    	<b><%= t("helpers.links.cancel") %></b>
+	    </a>
+	  </div>
+  </fieldset>
+<% end %>
+

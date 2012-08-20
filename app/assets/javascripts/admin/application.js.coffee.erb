@@ -1,0 +1,254 @@
+//= require jquery
+//= require jquery_ujs
+//= require jquery-ui
+//= require bootstrap
+//= require jquery/jquery.selected
+//= require jquery/jquery.fileupload-all
+//= require jquery/jquery.ad-gallery
+//= require jquery/jquery.redactor
+//= require jquery/jquery.redactor.zh_cn
+//= require jquery/jquery.smartWizard-2.0
+
+$ -> 
+	$("table .actions").tooltip
+		selector: "[rel*=tooltip]"
+
+$ ->
+	$("table #select_all").select_all()
+
+$ ->
+	$(".logs").popover
+		selector: "span.message-tag"
+		placement: "bottom"
+
+$ ->
+	$("#albums").tooltip(
+		selector: "[rel*=tooltip]"
+		placement: "bottom"
+	).popover(
+		selector: "a[rel*=popover]"
+		placement: "bottom"
+		title: "相册信息"
+	)
+
+$ ->
+	$('#photos-fileupload').fileupload(
+		previewMaxWidth: 173
+		previewMaxHeight: 138
+		maxFileSize: 10000000
+		maxNumberOfFiles: 50
+		acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+	).bind("fileuploadstop",
+		(e, data)-> $("#upload-success").modal("show"););
+
+$ -> 
+	$(".files li.box").live(
+		mouseenter: -> $(this).find("div.action").show()
+		mouseleave: -> $(this).find("div.action").hide()
+	).find(".image-box").live("click",
+		-> $(this).toggleClass("selected")
+			 .nextAll("input[name=delete]").attr("checked", $(this).hasClass("selected"))
+			 .end()
+			 .nextAll("input[class=delete]").attr("checked", $(this).hasClass("selected"));
+	)
+
+$ ->
+	$(".delete-photos").click(
+		-> $("form#photos").submit();
+	)
+$ ->
+	$("#gallery").adGallery(
+		loader_image: "<%= asset_path "gallery/loader.gif" %>"
+		description_wrapper: $(".ad-image-wrapper")
+		effect: "fade"
+	);
+
+$ -> 
+	$("form textarea[name*=body]").redactor
+		autoresize: false
+		lang: 'zh_cn'
+		buttonsCustom: 
+			image: 
+				title: '照片'
+				callback: (obj, event, key)->
+					$("#photo-upload-modal").modal("show")
+
+
+$ ->
+	isList = true
+	modal = $("#photo-upload-modal")
+	modal.on("show", (e)=>
+		if isList is true
+			loadPhotosFromSelect()
+			isList = false
+			return
+	).on("hide", (e)=>
+		isList = true
+	).find("select#album_id").change(->
+		loadPhotosFromSelect()
+	).end().find("a#insert").click(->
+		insertImageToTextarea($("form textarea[name*=body]"))
+		modal.modal("hide")
+	).end().find("a[data-target='#upload']").click(->
+		loadUploadForm()
+	).end().find("a[data-target='#list']").click(->
+		loadPhotosFromSelect()
+	)
+
+	loadPhotosFromSelect = () ->
+		$.get("/admin/editor_photos",
+			album_id: $("#photo-upload-modal .tab-content #list").find("select#album_id").val()
+		)
+
+	loadUploadForm = () ->
+		$.get("/admin/editor_photos/new")
+
+	insertImageToTextarea = (textarea) ->
+		html = ""
+		$("#photos #photos-files li").find(".image-box.selected").map(->
+			image = $(this).find("input[type=hidden]").val()
+			html += "<img src=\"" + image + "\" style=\"cursor: default;\" /><br />"
+		)
+		textarea.insertHtml(html)
+	return
+
+$ ->
+	$("#home-install #install").smartWizard
+		labelNext: "下一步"
+		labelPrevious: "上一步"
+		labelFinish: "完成"
+		onLeaveStep: (obj) ->
+			step_num = obj.attr('rel')
+			InstallWizard.validateSteps(step_num)
+		onFinish: () ->
+			InstallWizard.finishCallback()
+
+InstallWizard = 
+	wizard: $("#home-install #install")
+	app_name: $("#app-name")
+	app_keywords: $("#app-keywords")
+	app_description: $("#app-description")
+	user_login: $("#user-login")
+	user_email: $("#user-email")
+	user_password: $("#user-password")
+	user_password_confirmation: $("#user-password-confirmation")
+	errors:
+		empty: "不能为空"
+		too_long: "太长了"
+		too_short: "太短了"
+		email_error: "邮箱格式错误"
+		password_match: "密码不匹配"
+
+	validateSteps: (step) ->
+		isStepValid = true
+		if step is "2"
+      if this.validateStep2() is false
+        isStepValid = false
+        this.wizard.smartWizard 'setError', stepnum: step, iserror: isStepValid
+    if step is "3"
+    	if this.validateStep3() is false
+    		isStepValid = false
+    		this.wizard.smartWizard 'setError', stepnum: step, iserror: isStepValid
+	  isStepValid
+
+	validateStep2: () ->
+  	isValid = true
+  	app_name_error = this.app_name.nextAll(".help-block").children(".error")
+  	app_keywords_error = this.app_keywords.nextAll(".help-block").children(".error")
+  	app_description_error = this.app_description.nextAll(".help-block").children(".error")
+  	
+  	# app_name
+  	if this.app_name? && this.app_name.val().length <= 0
+  		isValid = false
+  		app_name_error.html(this.errors.empty)
+  	else
+	  	if this.app_name.val().length > 30
+	  		isValid = false
+	  		app_name_error.html(this.errors.too_long)
+	  	else
+	  		app_name_error.empty()
+
+
+  	#app_keywords
+  	if this.app_keywords? && this.app_keywords.val().length <= 0
+  		isValid = false
+  		app_keywords_error.html(this.errors.empty)
+  	else
+	  	if this.app_keywords.val().length > 100
+	  		isValid = false
+	  		app_keywords_error.html(this.errors.too_long)
+	  	else
+	  		app_keywords_error.empty()
+
+  	#app_description
+  	if this.app_description? && this.app_description.val().length <= 0
+  		isValid = false
+  		app_description_error.html(this.errors.empty)
+  	else
+	  	if this.app_description.val().length > 100
+	  		isValid = false
+	  		app_description_error.html(this.errors.too_long)
+	  	else
+	  		app_description_error.empty()
+
+  	isValid
+
+  validateStep3: () ->
+  	isValid = true
+  	user_login_error = this.user_login.nextAll(".help-block").children(".error")
+  	user_email_error = this.user_email.nextAll(".help-block").children(".error")
+  	user_password_error = this.user_password.nextAll(".help-block").children(".error")
+  	user_password_confirmation_error = this.user_password_confirmation.nextAll(".help-block").children(".error")
+  	
+  	# user_login
+  	if this.user_login? && this.user_login.val().length <= 0
+  		isValid = false
+  		user_login_error.html(this.errors.empty)
+  	else
+  		if this.user_login.val().length > 20
+  			isValid = false
+	  		user_login_error.html(this.errors.too_long)
+	  	else
+  			user_login_error.empty()
+
+  	# user_email
+  	if this.user_email? && this.user_email.val().length <= 0
+  		isValid = false
+  		user_email_error.html(this.errors.empty)
+  	else
+	  	if not this.isValidEmailAddress(this.user_email.val())
+	  		isValid = false
+	  		user_email_error.html(this.errors.email_error)
+	  	else
+	  		user_email_error.empty()
+
+  	# user_password
+  	if this.user_password? && this.user_password.val().length <= 0
+  		isValid = false
+  		user_password_error.html(this.errors.empty)
+  	else
+  		user_password_error.empty()
+
+  	# user_password_confirmation
+  	if this.user_password_confirmation.val() isnt this.user_password.val()
+  		isValid = false
+  		user_password_confirmation_error.html(this.errors.password_match)
+  	else
+  		user_password_confirmation_error.empty()
+
+  	isValid
+
+
+  isValidEmailAddress: (emailAddress) ->
+  	pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i)
+  	return pattern.test(emailAddress)
+
+	finishCallback: () ->
+	 	$("form").submit()
+
+	
+
+		
+	
+
+					

@@ -1,0 +1,106 @@
+<%- model_class = Photo -%>
+<%= content_for :title do -%>
+	<% if %w(index galleries).include?(action_name) -%>
+		<%= t("helpers.links.list", :model_name => model_class.model_name.human) %>
+	<% end -%>
+
+	<% if %w(new create).include?(action_name) -%>
+		<%= t("helpers.links.new", :model_name => model_class.model_name.human) %>
+	<% end -%>
+
+	<% if %w(edit update).include?(action_name) -%>
+		<%= t("helpers.links.edit", :model_name => model_class.model_name.human) %>
+	<% end -%>
+
+	<% if %w(search).include?(action_name) -%>
+		<%= t("helpers.links.search", :model_name => model_class.model_name.human) %>
+	<% end -%>
+<% end -%>
+
+<%= content_for :sitemaps do -%>
+	<a href="<%= admin_albums_path %>"><%= Album.model_name.human %></a>
+	<span class="divider">/</span>
+	<% if %w(index galleries).include?(action_name) -%>
+		<span class="active"><%= @album.name %></span>
+	<% end -%>
+
+	<% if %w(new create).include?(action_name) -%>
+		<% if !@album.blank? %>
+			<a href="<%= admin_album_photos_path(@album) %>"><%= @album.name %></a>
+			<span class="divider">/</span>
+		<% end -%>
+		<span class="active"><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+
+	<% if %w(edit update).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.edit", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+
+	<% if %w(search).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.search", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+<% end -%>
+
+<%= content_for :sidebar do -%>
+	<% if %w(index).include?(action_name) -%>
+		<div class="well sidebar-tip">
+			<div class="page-header"><h5 class="info">小贴士</h5></div>
+			<ul>
+				<li>点击图片能选中图片，选中的图片边框呈现红色。</li>
+				<li>鼠标移动到图片会显示删除等功能键。</li>
+			</ul>
+		</div>
+		<div class="well sidebar-nav">
+		  <%= log_tags(Photo.logs(:all, 20), :date_tag => false, :model_tag => false, :truncate => 19) %>
+		</div>
+	<% end -%>
+	<% if %w(galleries).include?(action_name) -%>
+		<div class="well sidebar-tip">
+			<div class="page-header"><h5 class="info">小贴士</h5></div>
+			<ul>
+				<li>点击大图左右可浏览下一张。</li>
+				<li>键盘左右键可浏览。</li>
+			</ul>
+		</div>
+	<% end -%>
+	<% if %w(new create).include?(action_name) -%>
+		<div class="well sidebar-tip">
+			<div class="page-header"><h5 class="info">小贴士</h5></div>
+			<ul>
+				<li>一次最多只能上传 <span class="badge badge-warning">50</span> 个文件。</li>
+				<li>只能上传<strong>(JPG, GIF, PNG)</strong>的图片。</li>
+				<li>每个文件小于10M。</li>
+			</ul>
+		</div>
+		<div class="well sidebar-nav">
+			<%= log_tags(Photo.logs(:all, 20), :date_tag => false, :model_tag => false, :truncate => 19) %>
+		</div>
+	<% end -%>
+<% end -%>
+
+<% if %w(index galleries).include?(action_name) -%>
+	<div id="toolbar" class="clearfix">
+		<% if %w(index).include?(action_name) %>
+			<div class="btn-group pull-left">
+				<a href="<%= new_admin_album_photo_path(@album) %>" class="btn">
+					<i class="icon-picture icon-large"></i>
+					<b><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></b>
+				</a>
+				<a href="javascript:void(0);" class="btn delete-photos">
+					<i class="icon-trash icon-large"></i>
+					<b><%= t("helpers.links.delete_all") %></b>
+				</a>
+			</div>
+		<% end -%>
+			<div class="btn-group pull-right">
+				<a href="<%= admin_album_photos_path(@album) %>" class="btn<%= " active" if action_name == "index" %>">
+					<i class="icon-th icon-large"></i>
+					<b><%= t("helpers.links.list_mode") %></b>
+				</a>
+				<a href="<%= galleries_admin_album_photos_path(@album) %>" class="btn delete-photos<%= " active" if action_name == "galleries" %>">
+					<i class="icon-eye-open icon-large"></i>
+					<b><%= t("helpers.links.gallery_mode") %></b>
+				</a>
+			</div>
+	</div>
+<% end -%>

@@ -1,0 +1,41 @@
+<%- model_class = Photo -%>
+<div id="photo-upload-modal" class="modal hide fade in">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+		<h3><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></h3>
+	</div>
+	<div class="modal-body">
+		<div class="tabbable">
+		  <ul class="nav nav-tabs">
+		    <li class="active">
+		    	<a href="javascript:void(null);" data-toggle="tab" data-target="#list">
+			    	<%= t("helpers.links.list", :model_name => model_class.model_name.human) %>
+			    </a>
+			  </li>
+		    <li>
+		    	<a href="javascript:void(null);" data-toggle="tab" data-target="#upload">
+		    		<%= t("helpers.links.upload", :model_name => model_class.model_name.human) %>
+		    	</a>
+		    </li>
+		  </ul>
+		  <div class="tab-content form-horizontal">
+		    <div class="tab-pane active" id="list">
+		    	<div class="control-group">
+	    			<label class="control-label" for="album_id">选择相册</label>
+				    <div class="controls">
+		       		<%= select "album", "id", Album.created_desc.map { |a| [a.name, a.id] } %>
+				    </div>
+				  </div>
+				  <div id="photos"></div>
+		    </div>
+		    <div class="tab-pane" id="upload">
+
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="javascript:void(null);" class="btn" data-dismiss="modal"><%= t("helpers.links.close") %></a>
+    <a href="javascript:void(null);" id="insert" class="btn btn-primary">插入</a>
+	</div>
+</div>

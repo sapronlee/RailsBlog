@@ -1,0 +1,53 @@
+<%- model_class = Album -%>
+<%= content_for :title do -%>
+	<% if %w(index).include?(action_name) -%>
+		<%= t("helpers.links.list", :model_name => model_class.model_name.human) %>
+	<% end -%>
+
+	<% if %w(new create).include?(action_name) -%>
+		<%= t("helpers.links.new", :model_name => model_class.model_name.human) %>
+	<% end -%>
+
+	<% if %w(edit update).include?(action_name) -%>
+		<%= t("helpers.links.edit", :model_name => model_class.model_name.human) %>
+	<% end -%>
+
+	<% if %w(search).include?(action_name) -%>
+		<%= t("helpers.links.search", :model_name => model_class.model_name.human) %>
+	<% end -%>
+<% end -%>
+
+<%= content_for :sitemaps do -%>
+	<a href="<%= admin_albums_path %>"><%= model_class.model_name.human %></a>
+	<span class="divider">/</span>
+	<% if %w(index).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.list", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+
+	<% if %w(new create).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+
+	<% if %w(edit update).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.edit", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+
+	<% if %w(search).include?(action_name) -%>
+		<span class="active"><%= t("helpers.links.search", :model_name => model_class.model_name.human) %></span>
+	<% end -%>
+<% end -%>
+
+<% if %w(index).include?(action_name) -%>
+	<div id="toolbar">
+		<div class="btn-group">
+			<a href="<%= new_admin_album_path(:remote => false) %>" class="btn" data-toggle="modal" data-target="#ajax-form" data-remote="true">
+				<i class="icon-folder-open icon-large"></i>
+				<b><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></b>
+			</a>
+			<a href="<%= new_admin_photo_path %>" class="btn">
+				<i class="icon-picture icon-large"></i>
+				<b><%= t("helpers.links.new", :model_name => Photo.model_name.human) %></b>
+			</a>
+		</div>
+	</div>
+<% end -%>

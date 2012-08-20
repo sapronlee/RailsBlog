@@ -1,0 +1,62 @@
+<%- model_class = Blog -%>
+<%= render "base" %>
+
+<div class="control-group">
+  <div class="controls pagination-right">
+    <%= simple_form_for :blog, :url => search_admin_blogs_path do |f| -%>
+      <div class="input-append">
+        <%= f.input_field :name, :placeholder => t("helpers.placeholder.search", :model => model_class.model_name.human) %>
+        <button type="submit" class="btn"><i class="icon-search"></i></button>
+      </div>
+    <% end -%>
+  </div>
+</div>
+<%= simple_form_for :blog, :url => destroy_multiple_admin_blogs_path do |f| -%>
+  <button type="submit" class="btn btn-danger delete-all" <%= "disabled=\"disabled\"" if @blogs.blank? %>>
+    <i class="icon-trash icon-large"></i>
+    <b><%= t("helpers.links.delete_all") %></b>
+  </button>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th class="select-all"><%= check_box_tag "select_all" %></th>
+        <th><%= model_class.human_attribute_name(:title) %></th>
+        <th><%= model_class.human_attribute_name(:category_id) %></th>
+        <th><%= model_class.human_attribute_name(:created_at) %></th>
+        <th class="actions"><%= t("helpers.links.action") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @blogs.each do |blog| %>
+        <tr>
+          <td class="select-all">
+            <%= check_box_tag "blog_ids[]", blog.id, false, :id => "blog_#{blog.id}" %>
+          </td>
+          <td><%= blog.title %></td>
+          <td><%= blog.category.name %></td>
+          <td><%= l blog.created_at.to_date, :format => :long %></td>
+          <td class="actions">
+            <%= link_to raw("<i class=\"icon-edit icon-large\"></i>"), 
+                        edit_admin_blog_path(blog), 
+                        :title => t("helpers.links.edit", :model_name => blog.title),
+                        :class => "btn btn-mini",
+                        :rel => :tooltip %>
+            <%= link_to raw("<i class=\"icon-trash icon-large\"></i>"),
+                        admin_blog_path(blog),
+                        :method => :delete,
+                        :title => t("helpers.links.destroy", :model_name => blog.title),
+                        :class => "btn btn-mini",
+                        :data => { :confirm => t("helpers.messages.confirm") },
+                        :rel => :tooltip %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end -%>
+
+<div class="table-footer clearfix">
+  <div class="paginates-info"><%= page_entries_info @blogs %></div>
+  <%= paginate @blogs, :theme => "admin" %>
+</div>
+

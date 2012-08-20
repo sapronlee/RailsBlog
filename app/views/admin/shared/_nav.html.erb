@@ -1,0 +1,15 @@
+<li <%= "class=active" if controller_name == "home" %>>
+	<%= link_to t("helpers.links.home"), admin_root_path, :title => t("helpers.links.home") %>
+</li>
+<li <%= "class=active" if controller_name == "categories" %>>
+	<%= link_to Category.model_name.human, admin_categories_path, :title => Category.model_name.human %>
+</li>
+<li <%= "class=active" if controller_name == "blogs" %>>
+	<%= link_to Blog.model_name.human, admin_blogs_path, :title => Blog.model_name.human %>
+</li>
+<li <%= "class=active" if controller_name == "albums" %>>
+	<%= link_to Album.model_name.human, admin_albums_path, :title => Album.model_name.human %>
+</li>
+<li <%= "class=active" if controller_name == "logs" %>>
+	<%= link_to Log.model_name.human, admin_logs_path, :title => Log.model_name.human %>
+</li>

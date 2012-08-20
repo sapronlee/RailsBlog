@@ -1,0 +1,27 @@
+<%- model_class = Album -%>
+<%= simple_form_for [:admin, @album], :html => { :class => "form-horizontal" }, :remote => @remote do |f| %>
+<div class="modal-header">
+  <a class="close" data-dismiss="modal">×</a>
+  <h3><%= t("helpers.links.#{@album.new_record? ? "new" : "edit"}", :model_name => model_class.model_name.human) %></h3>
+</div>
+<div class="modal-body">
+	<%= error_messages_for @album, :class => "control-group alert alert-error fade in", :close => :true %>
+  <%= f.input :name, :input_html => { :class => :span4 } %>
+  <%= f.input :description, :as => :text, :input_html => { :class => :span4 } %>
+  <%= f.input :permission_cd do %>
+  	<%= f.select :permission_cd, model_class.permissions_for_select(:value) %>
+  <% end -%>
+  <%= f.input :password, :input_html => { :class => :span4 } %>
+</div>
+<div class="modal-footer">
+	<button type="submit" class="btn btn-primary">
+  	<i class="icon-pencil icon-large"></i>
+  	<% if @album.new_record? %>
+    	<b><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></b>
+  	<% else -%>
+  		<b><%= t("helpers.links.edit", :model_name => model_class.model_name.human) %></b>
+  	<% end -%>
+  </button>
+  <a href="#" class="btn" data-dismiss="modal"><%= t("helpers.links.close") %></a>
+</div>
+<% end -%>

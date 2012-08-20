@@ -1,0 +1,13 @@
+<% if @album.errors.any? -%>
+	$("#ajax-form .modal-body")
+		.find("#errorExplanation").remove()
+		.end()
+		.prepend("<%= j(error_messages_for(@album, :class => 'control-group alert alert-error fade in', :close => :true)) %>")
+<% else -%>
+	$(".modal")
+		.find(":input:not(input[type=submit])").val("")
+		.end()
+		.modal('hide');
+		
+	$("select#photo_album_id").prepend("<%= j(content_tag(:option, @album.name, :value => @album.id, :selected => true)) %>");
+<% end -%>

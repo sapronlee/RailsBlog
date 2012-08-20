@@ -1,0 +1,30 @@
+<div class="hero-unit">
+  <fieldset>
+    <legend>补充管理员信息（选填）</legend>
+    <div class="control-group">
+      <label class="control-label" for="user-profile-realname">真实姓名</label>
+      <div class="controls">
+        <input class="input-xlarge" id="user-profile-realname" name="user[profile_attributes][real_name]" type="text">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="user-profile-phone">电话</label>
+      <div class="controls">
+        <input class="input-xlarge" id="user-profile-phone" name="user[profile_attributes][phone]" type="text">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="user-profile-birthday">生日</label>
+      <div class="controls">
+        <%= date_select "user[profile_attributes]", :birthday, 
+                        :start_year => 1900, :use_month_numbers => true, :html_options => { :class => "span4" } %>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="user-profile-gender">性别</label>
+      <div class="controls">
+        <%= select "user[profile_attributes]", :gender_cd, UserProfile.genders_for_select(:value) %>
+      </div>
+    </div>
+  </fieldset>
+</div>

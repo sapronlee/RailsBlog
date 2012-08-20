@@ -1,0 +1,23 @@
+<%- model_class = Log -%>
+<%= render "base" %>
+<%= render "tabs" %>
+<table class="table logs">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:message) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @logs.each do |log| %>
+      <tr>
+        <td><%= "#{log.id}#" %></td>
+        <td><%= log_tag(log, :model_tag => %w(index).include?(action_name) ? true : false, :popover => true) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="table-footer clearfix">
+  <div class="paginates-info"><%= page_entries_info @logs %></div>
+  <%= paginate @logs, :theme => "admin" %>
+</div>

@@ -1,0 +1,34 @@
+<%- model_class = Blog -%>
+
+<%= simple_form_for [:admin, @blog], :html => { :id => "blog-form" } do |f| %>
+  <fieldset>
+  	<% if %w(new create).include?(action_name) %>
+	  	<legend><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></legend>
+  	<% end -%>
+  	<% if %w(edit update).include?(action_name) %>
+	  	<legend><%= t("helpers.links.edit", :model_name => model_class.model_name.human) %></legend>
+  	<% end -%>
+  	<%= error_messages_for @blog, :class => "control-group alert alert-error fade in", :close => :true %>
+	  <%= f.input :title, :input_html => { :class => "full-width" } %>
+	  <%= f.input :body, :input_html => { :class => "full-width" } %>
+	  <%= f.association :category, :collection => Category.all, :prompt => t("helpers.links.select", :model_name => Category.model_name.human) %>
+	  <%= f.input :keywords, :input_html => { :class => "full-width" } %>
+	  <%= f.input :description, :input_html => { :class => "full-width" } %>
+	  <div class="form-actions">
+	    <button type="submit" class="btn btn-primary">
+	    	<i class="icon-pencil icon-large"></i>
+	    	<% if %w(new create).include?(action_name) %>
+		    	<b><%= t("helpers.links.new", :model_name => model_class.model_name.human) %></b>
+	    	<% end -%>
+	    	<% if %w(edit update).include?(action_name) %>
+	    		<b><%= t("helpers.links.edit", :model_name => model_class.model_name.human) %></b>
+	    	<% end -%>
+	    </button>
+	    <a href="<%= admin_blogs_path %>" class="btn">
+	    	<i class="icon-ban-circle icon-large"></i>
+	    	<b><%= t("helpers.links.cancel") %></b>
+	    </a>
+	  </div>
+  </fieldset>
+<% end %>
+

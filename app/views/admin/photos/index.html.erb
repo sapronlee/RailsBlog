@@ -1,0 +1,15 @@
+<%= render "base" %>
+<div id="photos-files">
+	<%= simple_form_for :photos, :url => destroy_multiple_admin_album_photos_path(@album), 
+											:html => { :id => :photos } do |f| -%>
+	<ul class="files thumbnails">
+		<% @photos.each do |photo| -%>
+			<%= render :partial => photo %>
+		<% end -%>
+	</ul>
+	<% end -%>
+</div>
+<div class="table-footer clearfix">
+  <div class="paginates-info"><%= page_entries_info @photos %></div>
+  <%= paginate @photos, :theme => "admin" %>
+</div>

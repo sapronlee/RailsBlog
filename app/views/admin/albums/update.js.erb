@@ -1,0 +1,19 @@
+<% if @album.errors.any? -%>
+	$("#ajax-form .modal-body")
+		.find("#errorExplanation").remove()
+		.end()
+		.prepend("<%= j(error_messages_for(@album, :class => 'control-group alert alert-error fade in', :close => :true)) %>")
+<% else -%>
+	$(".modal")
+		.find(":input:not(input[type=submit])").val("")
+		.end()
+		.modal('hide');
+		
+	$("#main div.well:first")
+		.find(".alert").remove()
+		.end().
+		prepend("<%= j(bootstrap_flash) %>");
+
+	$("#albums .thumbnails li.album_<%= @album.id %>").replaceWith("<%= j(render(:partial => @album)) %>");	
+<% end -%>
+

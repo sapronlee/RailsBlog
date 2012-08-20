@@ -1,0 +1,8 @@
+<div id="photos-files">
+	<ul class="files thumbnails">
+		<% @photos.each do |photo| -%>
+			<%= render :partial => "photo", :object => photo %>
+		<% end -%>
+	</ul>
+</div>
+<%= paginate @photos, :theme => "admin", :remote => true %>

@@ -1,0 +1,31 @@
+<%= render "base" %>
+<% if !@photos.blank? %>
+<div id="gallery" class="ad-gallery">
+  <div class="ad-nav">
+    <div class="ad-thumbs">
+      <ul class="ad-thumb-list">
+      	<% @photos.each do |photo| -%>
+      	<li>
+      		<a href="<%= photo.image.url %>">
+      			<%= image_tag photo.image.thumb_small, :class => "photo-#{photo.id}", 
+      										:title => photo.name,
+      										:alt => photo.description %>
+      		</a>
+      	</li>
+      	<% end -%>
+      </ul>
+    </div>
+  </div>
+  <div class="image-wrapper">
+  	<div class="ad-image-wrapper"></div>
+  </div>
+</div>
+<% else -%>
+<div class="alert alert-info">
+  <span class="label label-info"><%= t("helpers.page_entries_info.one_page.display_entries.zero") %></span>
+  <a href="<%= new_admin_album_photo_path(@album) %>" class="btn btn-info"><%= t("helpers.links.new", :model_name => Photo.model_name.human) %></a>
+</div>
+<div class="paginates-info">
+	
+</div>
+<% end -%>

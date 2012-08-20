@@ -1,0 +1,21 @@
+<li class="span3 album_<%= album.id %>">
+	<a href="<%= admin_album_photos_path(album) %>" class="thumbnail" rel="popover" data-content="<%= "<h4>#{album.name}</h4><p class='description'>#{album.description}</p>" %>">
+		<%= image_tag "admin/default-album.png" %>
+	</a>
+	<span class="name"><%= album.name %></span>
+	<div class="other">
+		<a href="<%= edit_admin_album_path(album) %>" data-remote="true" rel="tooltip" title="<%= t("helpers.links.edit", :model_name => Album.model_name.human) %>" data-toggle="modal" data-target="#ajax-form">
+			<i class="icon-edit icon-large"></i>
+		</a>
+		<a href="<%= delete_admin_album_path(album) %>" data-remote="true" data-toggle="modal" data-target="#ajax-form" rel="tooltip" title="<%= t("helpers.links.destroy", :model_name => Album.model_name.human) %>">
+			<i class="icon-trash icon-large"></i>
+		</a>
+		<% if !album.public? %>
+			<span class="permission" rel="tooltip" title="<%= album.human_permission %>">
+				<%= raw "<i class=\"icon-key icon-large\"></i>" if album.password? %>
+				<%= raw "<i class=\"icon-lock icon-large\"></i>" if album.private? %>
+			</span>
+		<% end -%>
+		<span class="count badge pull-right" rel="tooltip" title="<%= t("helpers.messages.album.photo_count", :count => album.photos_count) %>"><%= album.photos_count %></span>
+	</div>
+</li>

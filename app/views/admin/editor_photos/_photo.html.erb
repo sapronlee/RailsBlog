@@ -1,0 +1,9 @@
+<li class="box template-download">
+  <div class="image-box">
+    <div class="preview">
+        <%= image_tag photo.image.thumb %>
+        <input id="<%= "photo_#{photo.id}" %>" name="photo_ids[]" type="hidden" value="<%= photo.image.url %>" />
+    </div>
+  </div>
+  <span class="name"><%= photo.name %></span>
+</li>
